@@ -16,7 +16,7 @@ export class AppComponent {
   yellowColor: ButtonColor = ButtonColor.yellow;
 
   handleButtonClick(color:ButtonColor):void {
-    alert(`Clicked the ${color} button!  Handled by AppComponent`);
+    console.log(`Clicked the ${color} button!  Handled by AppComponent`);
   }
 
 }
