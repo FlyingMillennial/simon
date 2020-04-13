@@ -7,7 +7,8 @@ import { ButtonColor } from './shared/button-colors.enum';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'simon';
+  title:string = 'simon';
+  failed:boolean = false;
 
   redColor: ButtonColor = ButtonColor.red;
   blueColor: ButtonColor = ButtonColor.blue;

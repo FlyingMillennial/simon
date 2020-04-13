@@ -1,1 +1,8 @@
-<button (click)="buttonClicked(color)" [ngStyle]="{backgroundColor: color}"></button>
+<button
+    (click)="buttonClicked(color)"
+    (mousedown)="lightButton()"
+    (mouseup)="darkenButton()"
+    (mouseout)="darkenButton()"
+    [ngClass]="cssClassObject"
+    [class.fail]="failed">
+</button>

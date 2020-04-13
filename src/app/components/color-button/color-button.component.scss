@@ -6,3 +6,39 @@ button {
     color: white;
     font-weight: bold;
 }
+
+button.fail, button.lit.fail {
+    background-color: red;
+}
+
+.green {
+    background-color: darkgreen;
+}
+
+.green.lit {
+    background-color: lime;
+}
+
+.red {
+    background-color: darkred;
+}
+
+.red.lit {
+    background-color: red;
+}
+
+.yellow {
+    background-color: #CCCC00;
+}
+
+.yellow.lit {
+    background-color: yellow;
+}
+
+.blue {
+    background-color: darkblue;
+}
+
+.blue.lit {
+    background-color: blue;
+}
