@@ -19,8 +19,6 @@ export class ColorButtonComponent implements OnInit {
  * x. should flash a brighter shade of its color when clicked
  * x. should make a noise when clicked
  * x. should be able to become solid red by some means
- * 9. Needs to have a way to know via user input (click) to flash OR via app input (sequence) to flash
- *  - sounds like a job for a service
  */
 
   @Input() color:ButtonColor;
