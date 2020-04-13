@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ButtonColor } from 'src/app/shared/button-colors.enum';
-import { soundOne, soundThree } from 'src/assets/sounds';
+import { getSound } from 'src/app/shared/button-sounds';
 
 @Component({
   selector: 'app-color-button',
@@ -17,7 +17,7 @@ export class ColorButtonComponent implements OnInit {
  * x. should be a <button>
  * x. should be a big square the color of it's color input
  * x. should flash a brighter shade of its color when clicked
- * 7. should make a noise when clicked
+ * x. should make a noise when clicked
  * x. should be able to become solid red by some means
  * 9. Needs to have a way to know via user input (click) to flash OR via app input (sequence) to flash
  *  - sounds like a job for a service
@@ -43,7 +43,7 @@ export class ColorButtonComponent implements OnInit {
   }
 
   public buttonClicked(color:ButtonColor):void {
-    this.playSound();
+    this.playSound(color);
     this.clicked.emit(color);
   }
 
@@ -55,8 +55,8 @@ export class ColorButtonComponent implements OnInit {
     this.cssClassObject.lit = false;
   }
 
-  private playSound() {
-    let sound = new Audio(soundThree);
+  private playSound(color) {
+    let sound = getSound(color);
     sound.play();
   }
 
