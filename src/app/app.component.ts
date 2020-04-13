@@ -9,9 +9,13 @@ import { ButtonColor } from './shared/button-colors.enum';
 export class AppComponent {
   title = 'simon';
 
-  //Button Colors
   redColor: ButtonColor = ButtonColor.red;
   blueColor: ButtonColor = ButtonColor.blue;
   greenColor: ButtonColor = ButtonColor.green;
   yellowColor: ButtonColor = ButtonColor.yellow;
+
+  handleButtonClick(color:ButtonColor):void {
+    alert(`Clicked the ${color} button!  Handled by AppComponent`);
+  }
+
 }

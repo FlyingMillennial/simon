@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ButtonColor } from 'src/app/shared/button-colors.enum';
 
 @Component({
@@ -10,11 +10,11 @@ export class ColorButtonComponent implements OnInit {
 
 /**
  * Todo
- * 1. should accept a color as an input
- * 2. color should be an enum
- * 3. should have an eventEmitter/output pair to say it's been clicked
+ * x. should accept a color as an input
+ * x. color should be an enum
+ * x. should have an eventEmitter/output pair to say it's been clicked
  * x. should be a <button>
- * 5. should be a big square the color of it's color input
+ * x. should be a big square the color of it's color input
  * 6. should flash a brighter shade of its color when clicked
  * 7. should make a noise when clicked
  * 8. should be able to become solid red by some means
@@ -22,6 +22,7 @@ export class ColorButtonComponent implements OnInit {
  */
 
   @Input() color:ButtonColor;
+  @Output() clicked:EventEmitter<ButtonColor> = new EventEmitter();
 
   constructor() { }
 
@@ -29,7 +30,7 @@ export class ColorButtonComponent implements OnInit {
   }
 
   buttonClicked(color:ButtonColor):void {
-    alert(`you pushed the ${color} button!`);
+    this.clicked.emit(color);
   }
 
 }

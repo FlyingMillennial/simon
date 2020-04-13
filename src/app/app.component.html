@@ -1,4 +1,4 @@
-<app-color-button [color]="redColor"></app-color-button>
-<app-color-button [color]="blueColor"></app-color-button>
-<app-color-button [color]="greenColor"></app-color-button>
-<app-color-button [color]="yellowColor"></app-color-button>
+<app-color-button [color]="redColor" (clicked)="handleButtonClick($event)"></app-color-button>
+<app-color-button [color]="blueColor" (clicked)="handleButtonClick($event)"></app-color-button>
+<app-color-button [color]="greenColor" (clicked)="handleButtonClick($event)"></app-color-button>
+<app-color-button [color]="yellowColor" (clicked)="handleButtonClick($event)"></app-color-button>
