@@ -1,55 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ButtonColor } from './shared/button-colors.enum';
+import { Subject } from 'rxjs';
 
 /**
- * TODO:
- * x. Hold on to a sequence of colors
- * x. Add a random color
- * 3. clear out the colors
- * 4. hold on to an number of inputs received
- * 5. use a coloroutput from a button in concert with the inputsReceived value to check validity of an input
- * 6. place app in a failing state if input is incorrect
- * 7. reset to zero state
+ * TODO
+ * 1. Play color sequence to user at the start of each turn
+ *  - App component needs to be able to tell the button components to chirp
+ *  - Could use a subject passed as an input to the color-buttons that tells them to chirp
  */
-
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
   public title:string = 'simon';
   public failed:boolean = false;
   private sequence:ButtonColor[] = [];
   private currentInputIndex:number = 0;
+
+  public chirpSubject: Subject<ButtonColor> = new Subject(); 
 
   public redColor: ButtonColor = ButtonColor.red;
   public blueColor: ButtonColor = ButtonColor.blue;
   public greenColor: ButtonColor = ButtonColor.green;
   public yellowColor: ButtonColor = ButtonColor.yellow;
 
-  ngOnInit():void {
+  ngAfterViewInit():void {
     this.startGame();
   }
 
   private startGame():void {
     this.failed = false;
+    this.currentInputIndex = 0;
     this.sequence = this.addSequenceItem(this.sequence);
+    this.playSequence(this.sequence, this.chirpSubject);
     console.log(this.sequence);
   }
 
   public handleButtonClick(color:ButtonColor):void {
     const validInput = this.isUserInputValid(this.currentInputIndex, this.sequence, color);
-    if (validInput) {
+
+    //User clicked the correct button, increment index OR reset index and add item to sequence
+    if (validInput) { 
       this.currentInputIndex++;
       if (this.currentInputIndex === this.sequence.length) {
         this.currentInputIndex = 0;
         this.sequence = this.addSequenceItem(this.sequence);
+        this.playSequence(this.sequence, this.chirpSubject);
         console.log(this.sequence);
       }
-    } else {
+    } 
+    
+    //User clicked the wrong button, reset state then restart the game after a couple seconds of failed state
+    else { 
       this.sequence = [];
       this.failed = true;
       setTimeout(() => {
@@ -81,6 +86,15 @@ export class AppComponent implements OnInit {
   private isUserInputValid(index:number, sequence:ButtonColor[], userInput:ButtonColor):boolean {
     const isValid = userInput === sequence[index];
     return isValid;
+  }
+
+  private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
+    sequence.forEach((color:ButtonColor, index:number) => {
+      let waitTime = (index + 1) * 600;
+      setTimeout(() => {
+        colorSubject.next(color);
+      }, waitTime)
+    });
   }
 
 }

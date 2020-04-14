@@ -1,30 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ButtonColor } from 'src/app/shared/button-colors.enum';
 import { getSound } from 'src/app/shared/button-sounds';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-color-button',
   templateUrl: './color-button.component.html',
   styleUrls: ['./color-button.component.scss']
 })
-export class ColorButtonComponent implements OnInit {
-
-/**
- * Todo
- * x. should accept a color as an input
- * x. color should be an enum
- * x. should have an eventEmitter/output pair to say it's been clicked
- * x. should be a <button>
- * x. should be a big square the color of it's color input
- * x. should flash a brighter shade of its color when clicked
- * x. should make a noise when clicked
- * x. should be able to become solid red by some means
- */
+export class ColorButtonComponent implements OnInit, OnDestroy {
 
   @Input() color:ButtonColor;
   @Input() failed:boolean = false;
+  @Input() chirpSubject: Subject<ButtonColor>;
   @Output() clicked:EventEmitter<ButtonColor> = new EventEmitter();
 
+  private chirpSubscription: Subscription;
   public cssClassObject:any;
 
   private getCssClassObject(color) {
@@ -38,6 +29,11 @@ export class ColorButtonComponent implements OnInit {
 
   ngOnInit():void {
     this.cssClassObject = this.getCssClassObject(this.color);
+    this.chirpSubscription = this.chirpSubject.subscribe((color:ButtonColor) => {
+      if (color === this.color) {
+        this.chirp();
+      }
+    });
   }
 
   public buttonClicked(color:ButtonColor):void {
@@ -56,6 +52,18 @@ export class ColorButtonComponent implements OnInit {
   private playSound(color) {
     let sound = getSound(color);
     sound.play();
+  }
+
+  public chirp() {
+    this.cssClassObject["lit"] = true;
+    this.playSound(this.color);
+    setTimeout(() => {
+      this.cssClassObject["lit"] = false;
+    }, 800);
+  }
+
+  ngOnDestroy():void {
+    this.chirpSubscription.unsubscribe();
   }
 
 }
