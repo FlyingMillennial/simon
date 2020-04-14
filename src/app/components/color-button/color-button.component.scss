@@ -1,10 +1,16 @@
 button {
+    border-width: 0;
     padding: 10px;
-    margin: 10px;
+    margin: 4px;
     height: 90px;
     width: 90px;
     color: white;
     font-weight: bold;
+}
+
+button:focus {
+    //TODO: Fix it so no focus state
+    border: none;
 }
 
 button.fail, button.lit.fail {
@@ -13,6 +19,7 @@ button.fail, button.lit.fail {
 
 .green {
     background-color: darkgreen;
+    border-radius: 20px 0px 20px 85px;
 }
 
 .green.lit {
@@ -21,6 +28,7 @@ button.fail, button.lit.fail {
 
 .red {
     background-color: darkred;
+    border-radius: 85px 20px 0px 20px;
 }
 
 .red.lit {
@@ -29,6 +37,7 @@ button.fail, button.lit.fail {
 
 .yellow {
     background-color: #CCCC00;
+    border-radius: 0px 20px 85px 20px;
 }
 
 .yellow.lit {
@@ -37,6 +46,7 @@ button.fail, button.lit.fail {
 
 .blue {
     background-color: darkblue;
+    border-radius: 20px 85px 20px 0px;
 }
 
 .blue.lit {

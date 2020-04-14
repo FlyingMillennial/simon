@@ -4,5 +4,6 @@
     (mouseup)="darkenButton()"
     (mouseout)="darkenButton()"
     [ngClass]="cssClassObject"
-    [class.fail]="failed">
+    [class.fail]="failed"
+    [disabled]="!enableButton">
 </button>

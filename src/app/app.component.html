@@ -1,6 +1,7 @@
-<app-color-button [color]="redColor" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
-<app-color-button [color]="blueColor" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
-<app-color-button [color]="greenColor" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
-<app-color-button [color]="yellowColor" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
-<br>
-<button (click)="startGame()">Start Game</button>
+<div id="board">
+    <app-color-button [color]="redColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
+    <app-color-button [color]="blueColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
+    <button id="simonButton" (click)="startGame()">Simon</button>
+    <app-color-button [color]="greenColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
+    <app-color-button [color]="yellowColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
+</div>

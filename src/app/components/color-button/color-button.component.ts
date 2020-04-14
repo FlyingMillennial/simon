@@ -13,6 +13,7 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
   @Input() color:ButtonColor;
   @Input() failed:boolean = false;
   @Input() chirpSubject: Subject<ButtonColor>;
+  @Input() enableButton:boolean;
   @Output() clicked:EventEmitter<ButtonColor> = new EventEmitter();
 
   private chirpSubscription: Subscription;

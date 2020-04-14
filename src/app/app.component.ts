@@ -5,10 +5,12 @@ import { buzzerSound } from '../assets/sounds';
 
 /**
  * TODO
- * x. Fix color chirps so you get distinct on/off on repeated colors
- * x. Add a buzzer when you fail
- * x. Dont start automatically on load or on failure; Add a start new game button
+ * 3. Disable buttons when a game isn't running
  * 4. Add difficult settings (slow, normal, fast, progressive)
+ * 5. Style it up nice (round UI, semicircle buttons, start button in the middle with "simon" on it, nice bevel, responsive)
+ * 5. Add unit tests
+ * 6. Add integration tests
+ * 7. Deploy to heroku
  */
 
 @Component({
@@ -19,7 +21,7 @@ import { buzzerSound } from '../assets/sounds';
 export class AppComponent {
   public title:string = 'simon';
   public failed:boolean = false;
-  private sequence:ButtonColor[] = [];
+  public sequence:ButtonColor[] = [];
   private currentInputIndex:number = 0;
   private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
 
@@ -54,7 +56,8 @@ export class AppComponent {
     } 
     
     //User clicked the wrong button, reset state then restart the game after a couple seconds of failed state
-    else { 
+    else {
+      this.sequence = [];
       this.failed = true;
       this.buzzerSound.play();
     }
