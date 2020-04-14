@@ -1,0 +1,44 @@
+#board {
+    background-color: white;
+    border-radius: 75px;
+    max-width: 197px;
+    min-width: 197px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#simonButton {
+    background-color: black;
+    border-color: white;
+    border-radius: 30px;
+    border-style: solid;
+    border-width: 5px;
+    color: white;
+    display: block;
+    height: 60px;
+    left: 68px;
+    position: absolute;
+    top: 70px;
+    width: 60px;
+}
+
+#simonButton:focus {
+    outline: 0;
+}
+
+#simonButton:hover {
+    cursor: pointer;
+}
+
+#mute {
+    position: absolute;
+    right: 3px;
+    bottom: -42px;
+    border-radius: 10px;
+}
+
+#mute:focus {
+    outline: 0;
+}

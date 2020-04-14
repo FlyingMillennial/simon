@@ -1,0 +1,61 @@
+button {
+    border-width: 0;
+    padding: 10px;
+    margin: 4px;
+    height: 90px;
+    width: 90px;
+    color: white;
+    font-weight: bold;
+}
+
+button:focus {
+    outline: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button[disabled] {
+    cursor: default;
+}
+
+button.fail, button.lit.fail {
+    background-color: red;
+}
+
+.green {
+    background-color: darkgreen;
+    border-radius: 20px 0px 20px 85px;
+}
+
+.green.lit {
+    background-color: lime;
+}
+
+.red {
+    background-color: darkred;
+    border-radius: 85px 20px 0px 20px;
+}
+
+.red.lit {
+    background-color: red;
+}
+
+.yellow {
+    background-color: #CCCC00;
+    border-radius: 0px 20px 85px 20px;
+}
+
+.yellow.lit {
+    background-color: yellow;
+}
+
+.blue {
+    background-color: darkblue;
+    border-radius: 20px 85px 20px 0px;
+}
+
+.blue.lit {
+    background-color: blue;
+}
