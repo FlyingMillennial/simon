@@ -12,6 +12,7 @@ import { buzzerSound } from '../assets/sounds';
  * 6. Add integration tests
  * 7. Deploy to heroku
  * 8. Should stop playback when a button is pushed
+ * 9. Mute button
  */
 
 @Component({
@@ -39,7 +40,6 @@ export class AppComponent {
     this.currentInputIndex = 0;
     this.sequence = this.addSequenceItem(this.sequence);
     this.playSequence(this.sequence, this.chirpSubject);
-    console.log(this.sequence);
   }
 
   public handleButtonClick(color:ButtonColor):void {
@@ -52,7 +52,6 @@ export class AppComponent {
         this.currentInputIndex = 0;
         this.sequence = this.addSequenceItem(this.sequence);
         this.playSequence(this.sequence, this.chirpSubject);
-        console.log(this.sequence);
       }
     } 
     

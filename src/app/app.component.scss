@@ -3,6 +3,10 @@
     border-radius: 75px;
     max-width: 197px;
     min-width: 197px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #simonButton {
@@ -14,9 +18,9 @@
     color: white;
     display: block;
     height: 60px;
-    left: 75px;
+    left: 68px;
     position: absolute;
-    top: 75px;
+    top: 70px;
     width: 60px;
 }
 
