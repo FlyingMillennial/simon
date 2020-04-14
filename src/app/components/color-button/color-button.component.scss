@@ -9,8 +9,15 @@ button {
 }
 
 button:focus {
-    //TODO: Fix it so no focus state
-    border: none;
+    outline: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button[disabled] {
+    cursor: default;
 }
 
 button.fail, button.lit.fail {

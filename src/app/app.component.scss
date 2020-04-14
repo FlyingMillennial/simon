@@ -14,8 +14,16 @@
     color: white;
     display: block;
     height: 60px;
+    left: 75px;
     position: absolute;
-    right: 271px;
     top: 75px;
     width: 60px;
+}
+
+#simonButton:focus {
+    outline: 0;
+}
+
+#simonButton:hover {
+    cursor: pointer;
 }

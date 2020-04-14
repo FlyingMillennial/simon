@@ -5,12 +5,13 @@ import { buzzerSound } from '../assets/sounds';
 
 /**
  * TODO
- * 3. Disable buttons when a game isn't running
+ * x. Disable buttons when a game isn't running
  * 4. Add difficult settings (slow, normal, fast, progressive)
- * 5. Style it up nice (round UI, semicircle buttons, start button in the middle with "simon" on it, nice bevel, responsive)
+ * x. Style it up nice (round UI, semicircle buttons, start button in the middle with "simon" on it, nice bevel, responsive)
  * 5. Add unit tests
  * 6. Add integration tests
  * 7. Deploy to heroku
+ * 8. Should stop playback when a button is pushed
  */
 
 @Component({
