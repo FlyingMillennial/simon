@@ -1,12 +1,14 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ButtonColor } from './shared/button-colors.enum';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ButtonColor } from './shared/button-colors.enum';
+import { buzzerSound } from '../assets/sounds';
 
 /**
  * TODO
- * 1. Play color sequence to user at the start of each turn
- *  - App component needs to be able to tell the button components to chirp
- *  - Could use a subject passed as an input to the color-buttons that tells them to chirp
+ * x. Fix color chirps so you get distinct on/off on repeated colors
+ * x. Add a buzzer when you fail
+ * x. Dont start automatically on load or on failure; Add a start new game button
+ * 4. Add difficult settings (slow, normal, fast, progressive)
  */
 
 @Component({
@@ -14,11 +16,12 @@ import { Subject } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   public title:string = 'simon';
   public failed:boolean = false;
   private sequence:ButtonColor[] = [];
   private currentInputIndex:number = 0;
+  private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
 
   public chirpSubject: Subject<ButtonColor> = new Subject(); 
 
@@ -27,11 +30,8 @@ export class AppComponent implements AfterViewInit {
   public greenColor: ButtonColor = ButtonColor.green;
   public yellowColor: ButtonColor = ButtonColor.yellow;
 
-  ngAfterViewInit():void {
-    this.startGame();
-  }
-
-  private startGame():void {
+  public startGame():void {
+    this.sequence = [];
     this.failed = false;
     this.currentInputIndex = 0;
     this.sequence = this.addSequenceItem(this.sequence);
@@ -55,11 +55,8 @@ export class AppComponent implements AfterViewInit {
     
     //User clicked the wrong button, reset state then restart the game after a couple seconds of failed state
     else { 
-      this.sequence = [];
       this.failed = true;
-      setTimeout(() => {
-        this.startGame();
-      }, 2000);
+      this.buzzerSound.play();
     }
   }
 
@@ -90,7 +87,7 @@ export class AppComponent implements AfterViewInit {
 
   private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
     sequence.forEach((color:ButtonColor, index:number) => {
-      let waitTime = (index + 1) * 600;
+      let waitTime = (index + 1) * 800;
       setTimeout(() => {
         colorSubject.next(color);
       }, waitTime)

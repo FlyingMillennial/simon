@@ -59,7 +59,7 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
     this.playSound(this.color);
     setTimeout(() => {
       this.cssClassObject["lit"] = false;
-    }, 800);
+    }, 600);
   }
 
   ngOnDestroy():void {
