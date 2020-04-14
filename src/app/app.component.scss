@@ -31,3 +31,14 @@
 #simonButton:hover {
     cursor: pointer;
 }
+
+#mute {
+    position: absolute;
+    right: 3px;
+    bottom: -42px;
+    border-radius: 10px;
+}
+
+#mute:focus {
+    outline: 0;
+}

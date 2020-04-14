@@ -1,4 +1,5 @@
 <div id="board">
+    <button id="mute" (click)="toggleMute()">{{muteText}}</button>
     <app-color-button [color]="redColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
     <app-color-button [color]="blueColor" [enableButton]="sequence.length > 0" [chirpSubject]="chirpSubject" (clicked)="handleButtonClick($event)" [failed]="failed"></app-color-button>
     <button id="simonButton" (click)="startGame()">Simon</button>

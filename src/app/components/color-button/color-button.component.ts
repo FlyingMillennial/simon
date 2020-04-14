@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { ButtonColor } from 'src/app/shared/button-colors.enum';
 import { getSound } from 'src/app/shared/button-sounds';
 import { Subject, Subscription } from 'rxjs';
+import { SoundService } from 'src/app/shared/sound-service.service';
 
 @Component({
   selector: 'app-color-button',
@@ -19,14 +20,14 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
   private chirpSubscription: Subscription;
   public cssClassObject:any;
 
+  constructor(private soundService: SoundService) { }
+
   private getCssClassObject(color) {
     let cssClassObject = {};
     cssClassObject[color] = true;
     cssClassObject["lit"] = false;
     return cssClassObject;
   }
-
-  constructor() { }
 
   ngOnInit():void {
     this.cssClassObject = this.getCssClassObject(this.color);
@@ -52,7 +53,9 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
 
   private playSound(color) {
     let sound = getSound(color);
-    sound.play();
+    if (!this.soundService.appMuted) {
+      sound.play();
+    }
   }
 
   public chirp() {

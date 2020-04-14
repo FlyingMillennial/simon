@@ -2,17 +2,14 @@ import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ButtonColor } from './shared/button-colors.enum';
 import { buzzerSound } from '../assets/sounds';
+import { SoundService } from './shared/sound-service.service';
 
 /**
  * TODO
- * x. Disable buttons when a game isn't running
  * 4. Add difficult settings (slow, normal, fast, progressive)
- * x. Style it up nice (round UI, semicircle buttons, start button in the middle with "simon" on it, nice bevel, responsive)
  * 5. Add unit tests
  * 6. Add integration tests
  * 7. Deploy to heroku
- * 8. Should stop playback when a button is pushed
- * 9. Mute button
  */
 
 @Component({
@@ -26,15 +23,20 @@ export class AppComponent {
   public sequence:ButtonColor[] = [];
   private currentInputIndex:number = 0;
   private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
+  private soundTimeouts: NodeJS.Timer[] = [];
 
-  public chirpSubject: Subject<ButtonColor> = new Subject(); 
+  public chirpSubject: Subject<ButtonColor> = new Subject();
 
   public redColor: ButtonColor = ButtonColor.red;
   public blueColor: ButtonColor = ButtonColor.blue;
   public greenColor: ButtonColor = ButtonColor.green;
   public yellowColor: ButtonColor = ButtonColor.yellow;
+  public muteText:string = "Mute";
+
+  constructor(private soundService: SoundService) { }
 
   public startGame():void {
+    this.stopSequence(this.soundTimeouts);
     this.sequence = [];
     this.failed = false;
     this.currentInputIndex = 0;
@@ -57,9 +59,12 @@ export class AppComponent {
     
     //User clicked the wrong button, reset state then restart the game after a couple seconds of failed state
     else {
+      this.stopSequence(this.soundTimeouts);
       this.sequence = [];
       this.failed = true;
-      this.buzzerSound.play();
+      if (!this.soundService.appMuted) {
+        this.buzzerSound.play();
+      }
     }
   }
 
@@ -91,10 +96,19 @@ export class AppComponent {
   private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
     sequence.forEach((color:ButtonColor, index:number) => {
       let waitTime = (index + 1) * 800;
-      setTimeout(() => {
-        colorSubject.next(color);
-      }, waitTime)
+      this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
     });
+  }
+
+  private stopSequence(timeoutIds: NodeJS.Timer[]) {
+    timeoutIds.forEach((id) => {
+      clearTimeout(id);
+    })
+  }
+
+  public toggleMute() {
+    this.soundService.appMuted ? this.soundService.unmuteApp() : this.soundService.muteApp();
+    this.muteText = this.soundService.appMuted ? "Unmute" : "Mute";
   }
 
 }
