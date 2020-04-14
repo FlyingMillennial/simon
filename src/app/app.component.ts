@@ -23,7 +23,7 @@ export class AppComponent {
   public sequence:ButtonColor[] = [];
   private currentInputIndex:number = 0;
   private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
-  private soundTimeouts: NodeJS.Timer[] = [];
+  private soundTimeouts: any[] = [];
 
   public chirpSubject: Subject<ButtonColor> = new Subject();
 
@@ -100,7 +100,7 @@ export class AppComponent {
     });
   }
 
-  private stopSequence(timeoutIds: NodeJS.Timer[]) {
+  private stopSequence(timeoutIds: any[]) {
     timeoutIds.forEach((id) => {
       clearTimeout(id);
     })
