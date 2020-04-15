@@ -48,7 +48,9 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
   }
 
   public darkenButton() {
-    this.cssClassObject.lit = false;
+    setTimeout(() => {
+      this.cssClassObject.lit = false;
+    }, 400)
   }
 
   private playSound(color) {

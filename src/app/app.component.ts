@@ -9,7 +9,7 @@ import { SoundService } from './shared/sound-service.service';
  * 4. Add difficult settings (slow, normal, fast, progressive)
  * 5. Add unit tests
  * 6. Add integration tests
- * 7. Deploy to heroku
+ * 7. Add longer flash time on click
  */
 
 @Component({
