@@ -22,7 +22,7 @@ export class DifficultyService {
 
   private easySpeeds:SpeedModel = {chirpSpeed: 800, chirpInterval: 1000, flashDuration: 400};
   private normalSpeeds:SpeedModel = {chirpSpeed: 600, chirpInterval: 800, flashDuration: 400};
-  private hardSpeeds:SpeedModel = {chirpSpeed: 400, chirpInterval: 600, flashDuration: 400};
+  private hardSpeeds:SpeedModel = {chirpSpeed: 350, chirpInterval: 550, flashDuration: 400};
   private hardestSpeeds:SpeedModel = {chirpSpeed: 150, chirpInterval: 250, flashDuration: 200};
 
   public getDifficultySetting():DifficultySetting {

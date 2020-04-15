@@ -8,5 +8,6 @@
     <button id="mute" (click)="toggleMute()">{{muteText}}</button>
     <select id="difficultySelect" (change)="updateDifficulty($event)">
         <option *ngFor="let difficulty of difficultySettings" [value]="difficulty" [selected]="difficulty === 'normal'">{{difficulty}}</option>
+        <option value="progressive">progresive</option>
     </select>
 </div>

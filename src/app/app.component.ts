@@ -7,10 +7,10 @@ import { DifficultyService, DifficultySetting } from './shared/difficulty.servic
 
 /**
  * TODO
- * 4. Add difficult settings (slow, normal, fast, progressive)
+ * 4. Add difficult settings (progressive)
  * 5. Add unit tests
- * 6. Add integration tests
  * 7. Add longer flash time on click
+ * 8. Add time trial mode
  */
 
 @Component({
@@ -25,6 +25,7 @@ export class AppComponent {
   private currentInputIndex:number = 0;
   private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
   private soundTimeouts: any[] = [];
+  private progressiveDifficulty: boolean = false;
 
   public chirpSubject: Subject<ButtonColor> = new Subject();
   public difficultySettings = Object.keys(DifficultySetting);
@@ -55,6 +56,14 @@ export class AppComponent {
       if (this.currentInputIndex === this.sequence.length) {
         this.currentInputIndex = 0;
         this.sequence = this.addSequenceItem(this.sequence);
+        if (this.progressiveDifficulty) {
+          if (this.sequence.length > 3) {
+            this.difficultyService.setDifficultySetting(DifficultySetting.hard);
+          }
+          if (this.sequence.length > 7) {
+            this.difficultyService.setDifficultySetting(DifficultySetting.hardest);
+          }
+        }
         this.playSequence(this.sequence, this.chirpSubject);
       }
     } 
@@ -96,10 +105,13 @@ export class AppComponent {
   }
 
   private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
-    sequence.forEach((color:ButtonColor, index:number) => {
-      let waitTime = (index + 1) * this.difficultyService.getDifficultySpeeds().chirpInterval;
-      this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
-    });
+    setTimeout(() => {
+      sequence.forEach((color:ButtonColor, index:number) => {
+        let waitTime = (index + 1) * this.difficultyService.getDifficultySpeeds().chirpInterval;
+        this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
+      });
+      console.log(this.sequence);
+    }, 500) 
   }
 
   private stopSequence(timeoutIds: any[]) {
@@ -115,7 +127,14 @@ export class AppComponent {
 
   public updateDifficulty(event:Event):void {
     let selectedOption = event.target as HTMLInputElement;
-    this.difficultyService.setDifficultySetting(selectedOption.value as DifficultySetting);
+    if (selectedOption.value === "progressive") {
+      this.progressiveDifficulty = true;
+      this.difficultyService.setDifficultySetting(DifficultySetting.normal);
+      this.startGame();
+    } else {
+      this.progressiveDifficulty = false;
+      this.difficultyService.setDifficultySetting(selectedOption.value as DifficultySetting);
+    }
   }
 
 }
