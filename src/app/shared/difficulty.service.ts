@@ -18,7 +18,7 @@ export interface SpeedModel {
 })
 export class DifficultyService {
 
-  private difficutly:DifficultySetting = DifficultySetting.hardest;
+  private difficutly:DifficultySetting = DifficultySetting.normal;
 
   private easySpeeds:SpeedModel = {chirpSpeed: 800, chirpInterval: 1000, flashDuration: 400};
   private normalSpeeds:SpeedModel = {chirpSpeed: 600, chirpInterval: 800, flashDuration: 400};
