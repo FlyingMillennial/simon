@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { ButtonColor } from './shared/button-colors.enum';
 import { buzzerSound } from '../assets/sounds';
 import { SoundService } from './shared/sound-service.service';
+import { DifficultyService, DifficultySetting } from './shared/difficulty.service';
 
 /**
  * TODO
@@ -26,6 +27,7 @@ export class AppComponent {
   private soundTimeouts: any[] = [];
 
   public chirpSubject: Subject<ButtonColor> = new Subject();
+  public difficultySettings = Object.keys(DifficultySetting);
 
   public redColor: ButtonColor = ButtonColor.red;
   public blueColor: ButtonColor = ButtonColor.blue;
@@ -33,7 +35,7 @@ export class AppComponent {
   public yellowColor: ButtonColor = ButtonColor.yellow;
   public muteText:string = "Mute";
 
-  constructor(private soundService: SoundService) { }
+  constructor(private soundService: SoundService, private difficultyService: DifficultyService) { }
 
   public startGame():void {
     this.stopSequence(this.soundTimeouts);
@@ -95,7 +97,7 @@ export class AppComponent {
 
   private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
     sequence.forEach((color:ButtonColor, index:number) => {
-      let waitTime = (index + 1) * 800;
+      let waitTime = (index + 1) * this.difficultyService.getDifficultySpeeds().chirpInterval;
       this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
     });
   }
@@ -109,6 +111,11 @@ export class AppComponent {
   public toggleMute() {
     this.soundService.appMuted ? this.soundService.unmuteApp() : this.soundService.muteApp();
     this.muteText = this.soundService.appMuted ? "Unmute" : "Mute";
+  }
+
+  public updateDifficulty(event:Event):void {
+    let selectedOption = event.target as HTMLInputElement;
+    this.difficultyService.setDifficultySetting(selectedOption.value as DifficultySetting);
   }
 
 }
