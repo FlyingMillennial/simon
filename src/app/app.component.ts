@@ -5,14 +5,6 @@ import { buzzerSound } from '../assets/sounds';
 import { SoundService } from './shared/sound-service.service';
 import { DifficultyService, DifficultySetting } from './shared/difficulty.service';
 
-/**
- * TODO
- * 4. Add difficult settings (progressive)
- * 5. Add unit tests
- * 7. Add longer flash time on click
- * 8. Add time trial mode
- */
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
