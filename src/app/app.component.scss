@@ -33,6 +33,7 @@
 }
 
 #mute {
+    background-color: #eee;
     position: absolute;
     right: 3px;
     bottom: -42px;
@@ -41,4 +42,10 @@
 
 #mute:focus {
     outline: 0;
+}
+
+#difficultySelect {
+    position: absolute;
+    left: 0px;
+    top: 218px;
 }

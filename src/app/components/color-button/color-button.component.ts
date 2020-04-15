@@ -3,6 +3,7 @@ import { ButtonColor } from 'src/app/shared/button-colors.enum';
 import { getSound } from 'src/app/shared/button-sounds';
 import { Subject, Subscription } from 'rxjs';
 import { SoundService } from 'src/app/shared/sound-service.service';
+import { DifficultyService, DifficultySetting } from 'src/app/shared/difficulty.service';
 
 @Component({
   selector: 'app-color-button',
@@ -20,7 +21,8 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
   private chirpSubscription: Subscription;
   public cssClassObject:any;
 
-  constructor(private soundService: SoundService) { }
+
+  constructor(private soundService: SoundService, private difficultyService: DifficultyService) { }
 
   private getCssClassObject(color) {
     let cssClassObject = {};
@@ -48,7 +50,9 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
   }
 
   public darkenButton() {
-    this.cssClassObject.lit = false;
+    setTimeout(() => {
+      this.cssClassObject.lit = false;
+    }, this.difficultyService.getDifficultySpeeds().flashDuration)
   }
 
   private playSound(color) {
@@ -63,7 +67,7 @@ export class ColorButtonComponent implements OnInit, OnDestroy {
     this.playSound(this.color);
     setTimeout(() => {
       this.cssClassObject["lit"] = false;
-    }, 600);
+    }, this.difficultyService.getDifficultySpeeds().chirpSpeed);
   }
 
   ngOnDestroy():void {

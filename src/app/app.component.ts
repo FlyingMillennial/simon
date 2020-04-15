@@ -3,13 +3,14 @@ import { Subject } from 'rxjs';
 import { ButtonColor } from './shared/button-colors.enum';
 import { buzzerSound } from '../assets/sounds';
 import { SoundService } from './shared/sound-service.service';
+import { DifficultyService, DifficultySetting } from './shared/difficulty.service';
 
 /**
  * TODO
- * 4. Add difficult settings (slow, normal, fast, progressive)
+ * 4. Add difficult settings (progressive)
  * 5. Add unit tests
- * 6. Add integration tests
- * 7. Deploy to heroku
+ * 7. Add longer flash time on click
+ * 8. Add time trial mode
  */
 
 @Component({
@@ -24,8 +25,10 @@ export class AppComponent {
   private currentInputIndex:number = 0;
   private buzzerSound:HTMLAudioElement = new Audio(buzzerSound);
   private soundTimeouts: any[] = [];
+  private progressiveDifficulty: boolean = false;
 
   public chirpSubject: Subject<ButtonColor> = new Subject();
+  public difficultySettings = Object.keys(DifficultySetting);
 
   public redColor: ButtonColor = ButtonColor.red;
   public blueColor: ButtonColor = ButtonColor.blue;
@@ -33,7 +36,7 @@ export class AppComponent {
   public yellowColor: ButtonColor = ButtonColor.yellow;
   public muteText:string = "Mute";
 
-  constructor(private soundService: SoundService) { }
+  constructor(private soundService: SoundService, private difficultyService: DifficultyService) { }
 
   public startGame():void {
     this.stopSequence(this.soundTimeouts);
@@ -53,6 +56,14 @@ export class AppComponent {
       if (this.currentInputIndex === this.sequence.length) {
         this.currentInputIndex = 0;
         this.sequence = this.addSequenceItem(this.sequence);
+        if (this.progressiveDifficulty) {
+          if (this.sequence.length > 3) {
+            this.difficultyService.setDifficultySetting(DifficultySetting.hard);
+          }
+          if (this.sequence.length > 7) {
+            this.difficultyService.setDifficultySetting(DifficultySetting.hardest);
+          }
+        }
         this.playSequence(this.sequence, this.chirpSubject);
       }
     } 
@@ -94,10 +105,13 @@ export class AppComponent {
   }
 
   private playSequence(sequence: ButtonColor[], colorSubject: Subject<ButtonColor>):void {
-    sequence.forEach((color:ButtonColor, index:number) => {
-      let waitTime = (index + 1) * 800;
-      this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
-    });
+    setTimeout(() => {
+      sequence.forEach((color:ButtonColor, index:number) => {
+        let waitTime = (index + 1) * this.difficultyService.getDifficultySpeeds().chirpInterval;
+        this.soundTimeouts.push( setTimeout(() => {colorSubject.next(color)}, waitTime) );
+      });
+      console.log(this.sequence);
+    }, 500) 
   }
 
   private stopSequence(timeoutIds: any[]) {
@@ -109,6 +123,18 @@ export class AppComponent {
   public toggleMute() {
     this.soundService.appMuted ? this.soundService.unmuteApp() : this.soundService.muteApp();
     this.muteText = this.soundService.appMuted ? "Unmute" : "Mute";
+  }
+
+  public updateDifficulty(event:Event):void {
+    let selectedOption = event.target as HTMLInputElement;
+    if (selectedOption.value === "progressive") {
+      this.progressiveDifficulty = true;
+      this.difficultyService.setDifficultySetting(DifficultySetting.normal);
+      this.startGame();
+    } else {
+      this.progressiveDifficulty = false;
+      this.difficultyService.setDifficultySetting(selectedOption.value as DifficultySetting);
+    }
   }
 
 }
